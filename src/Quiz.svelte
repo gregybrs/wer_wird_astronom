@@ -10,8 +10,28 @@
     let correctAnswer = "";
     let userAnswer = "";
     let error = "";
+    let gameOver = false;
+    let restartMessage = "";
 
     import Rocket from "./assets/Rocket.png";
+
+    const stages = [
+        "Astronaut",
+        "Veteran",
+        "Pionier",
+        "Gelehrter",
+        "Meister",
+        "Experte",
+        "Spezialist",
+        "Analytiker",
+        "Forscher",
+        "Enthusiast",
+        "Kenner",
+        "Entdecker",
+        "Lernender",
+        "Neuling",
+        "Anfänger",
+    ];
 
     onMount(async () => {
         await loadQuestion(currentQuestionIndex);
@@ -25,7 +45,7 @@
         }
 
         const difficulty = index + 1;
-        const prompt = `Give me a multiple choice question about astronomy with difficulty level ${difficulty} varying each time in German.`;
+        const prompt = `Gib mir eine Multiple-Choice-Frage über Astronomie mit Schwierigkeitsgrad ${difficulty}, die jedes Mal variiert, auf Deutsch.`;
         try {
             const data = await fetchChatGPTResponse(prompt);
             console.log("Received data:", data);
@@ -36,7 +56,7 @@
                 !data.choices[0] ||
                 !data.choices[0].text
             ) {
-                throw new Error("Unexpected API response format");
+                throw new Error("Unerwartetes API-Antwortformat");
             }
 
             const responseText = data.choices[0].text;
@@ -47,7 +67,7 @@
             console.log("Parsed lines:", lines);
 
             if (lines.length < 6) {
-                throw new Error("Incomplete API response");
+                throw new Error("Unvollständige API-Antwort");
             }
 
             question = lines[0];
@@ -62,28 +82,39 @@
 
             if (!correctAnswer) {
                 throw new Error(
-                    "Correct answer not found in the provided answers",
+                    "Die richtige Antwort wurde nicht in den angegebenen Antworten gefunden",
                 );
             }
 
-            console.log("Correct answer:", correctAnswer);
+            console.log("Richtige Antwort:", correctAnswer);
 
             history.update((h) => [...h, { question, answers, correctAnswer }]);
         } catch (err) {
             error =
-                "Error loading question: " +
+                "Fehler beim Laden der Frage: " +
                 (err.response ? err.response.data.error.message : err.message);
-            console.error("Error:", err);
+            console.error("Fehler:", err);
         }
     }
 
     function checkAnswer(answer) {
         userAnswer = answer;
-        setTimeout(() => {
-            currentQuestionIndex++;
-            userAnswer = "";
-            loadQuestion(currentQuestionIndex);
-        }, 2000);
+        if (answer === correctAnswer) {
+            setTimeout(() => {
+                currentQuestionIndex++;
+                userAnswer = "";
+                loadQuestion(currentQuestionIndex);
+            }, 2000);
+        } else {
+            setTimeout(() => {
+                restartMessage =
+                    "Falsche Antwort! Die Rakete muss neu gestartet werden.";
+                gameOver = true;
+                setTimeout(() => {
+                    restartGame();
+                }, 2000); // Verzögerung, bevor das Spiel neu gestartet wird
+            }, 2000); // Verzögerung, bevor die Neustartmeldung angezeigt wird
+        }
     }
 
     function isCorrect(answer) {
@@ -94,22 +125,49 @@
         return userAnswer && answer !== correctAnswer && userAnswer === answer;
     }
 
-    $: rocketPosition = (currentQuestionIndex / maxQuestions) * 100;
+    $: rocketPosition = (currentQuestionIndex / (maxQuestions - 1)) * 95;
+
+    function restartGame() {
+        currentQuestionIndex = 0;
+        userAnswer = "";
+        question = "Frage lädt...";
+        answers = [];
+        correctAnswer = "";
+        error = "";
+        gameOver = false;
+        restartMessage = "";
+        loadQuestion(currentQuestionIndex);
+    }
 </script>
 
 <div class="container">
-    <div class="progress-bar">
-        <img
-            src={Rocket}
-            alt="Rocket"
-            class="rocket"
-            style="bottom: {rocketPosition}%"
-        />
+    <div class="progress-container">
+        <div class="stages">
+            {#each stages as stage, index}
+                <div
+                    class="stage {index === currentQuestionIndex
+                        ? 'current-stage'
+                        : ''}"
+                >
+                    {stage}
+                </div>
+            {/each}
+        </div>
+        <div class="progress-bar">
+            <img
+                src={Rocket}
+                alt="Rocket"
+                class="rocket"
+                style="bottom: {rocketPosition}%"
+            />
+        </div>
     </div>
     <div class="quiz-content">
         {#if error}
             <p class="error">{error}</p>
-        {:else}
+        {:else if gameOver}
+            <p class="error">{restartMessage}</p>
+        {:else if question !== "Frage lädt..."}
             <div>
                 <p>{question}</p>
                 <ul>
@@ -131,6 +189,8 @@
                     {/each}
                 </ul>
             </div>
+        {:else}
+            <p>Frage lädt...</p>
         {/if}
     </div>
 </div>

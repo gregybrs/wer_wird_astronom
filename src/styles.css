@@ -55,12 +55,19 @@ section {
     display: flex;
 }
 
+.progress-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
 .progress-bar {
     width: 10px;
     height: 60vh;
     position: relative;
     background: linear-gradient(0deg, #234035, #0C1EB3, #01062c);
     margin-right: 100px;
+    margin-left: 20px;
     border-radius: 15px;
     outline: 1px solid #ab9adf;
 }
@@ -71,6 +78,22 @@ section {
     transition: bottom 0.3s ease-in-out;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.stages {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+}
+
+.stage {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.current-stage {
+    font-weight: bold;
+    color: #ffdd57;
 }
 
 
