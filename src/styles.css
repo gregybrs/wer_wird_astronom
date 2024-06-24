@@ -1,0 +1,165 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    background-color: #26135D;
+}
+
+header {
+    background-color: #26135D;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+nav {
+    background-color: #0A1BA2;
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    padding: 0.5em 0;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5em;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+main {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+section {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+.container {
+    display: flex;
+}
+
+.progress-bar {
+    width: 10px;
+    height: 60vh;
+    position: relative;
+    background: linear-gradient(0deg, #234035, #0C1EB3, #01062c);
+    margin-right: 100px;
+    border-radius: 15px;
+    outline: 1px solid #ab9adf;
+}
+
+.rocket {
+    position: absolute;
+    width: 40px;
+    transition: bottom 0.3s ease-in-out;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.quiz-content {
+    flex-grow: 1;
+}
+
+
+.error {
+    color: red;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}
+
+button {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #050D4D, #0C1EB3, #050D4D);
+    color: #fff;
+    font-size: 16px;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+    border: none;
+    outline: none;
+
+
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: +2px;
+    /* Adjust to match border width */
+    right: +2px;
+    /* Adjust to match border width */
+    bottom: +2px;
+    /* Adjust to match border width */
+    left: +2px;
+    /* Adjust to match border width */
+    background: none;
+    border: 2px solid #ab9adf;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+    /* Match button shape */
+    z-index: -1;
+    /* Place it behind the button */
+    border-radius: 8px;
+    /* Ensure the border radius matches */
+}
+
+button:hover {
+    background: linear-gradient(45deg, #78baf3, #4246af);
+    /* Gradient background */
+    transform: scale(1.05);
+}
+
+.is-correct {
+    background: linear-gradient(45deg, #9de2ad, #2f9e49);
+    /* Light green gradient */
+}
+
+.is-correct::before {
+    border-color: #2f9e49;
+    /* Adjust border color to match */
+}
+
+.is-incorrect {
+    background: linear-gradient(45deg, #c0797f, #ed2a3e);
+    /* Light red gradient */
+}
+
+.is-incorrect::before {
+    border-color: #ed2a3e;
+    /* Adjust border color to match */
+}
+
+
+footer {
+    background-color: #26135D;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+}
