@@ -10,8 +10,6 @@
     let correctAnswer = "";
     let userAnswer = "";
     let error = "";
-    let gameOver = false;
-    let restartMessage = "";
 
     import Rocket from "./assets/Rocket.png";
 
@@ -32,12 +30,19 @@
             const data = await fetchChatGPTResponse(prompt);
             console.log("Received data:", data);
 
-            if (!data || !data.choices || !data.choices[0] || !data.choices[0].text) {
+            if (
+                !data ||
+                !data.choices ||
+                !data.choices[0] ||
+                !data.choices[0].text
+            ) {
                 throw new Error("Unexpected API response format");
             }
 
             const responseText = data.choices[0].text;
-            const lines = responseText.split("\n").filter((line) => line.trim() !== "");
+            const lines = responseText
+                .split("\n")
+                .filter((line) => line.trim() !== "");
 
             console.log("Parsed lines:", lines);
 
@@ -46,39 +51,39 @@
             }
 
             question = lines[0];
-            answers = lines.slice(1, 5).map((line) => line.replace(/^[A-D]\)\s*/, ""));
+            answers = lines
+                .slice(1, 5)
+                .map((line) => line.replace(/^[A-D]\)\s*/, ""));
 
             const correctAnswerLine = lines[5];
-            correctAnswer = answers.find((answer) => correctAnswerLine.includes(answer));
+            correctAnswer = answers.find((answer) =>
+                correctAnswerLine.includes(answer),
+            );
 
             if (!correctAnswer) {
-                throw new Error("Correct answer not found in the provided answers");
+                throw new Error(
+                    "Correct answer not found in the provided answers",
+                );
             }
 
             console.log("Correct answer:", correctAnswer);
 
             history.update((h) => [...h, { question, answers, correctAnswer }]);
         } catch (err) {
-            error = "Error loading question: " + (err.response ? err.response.data.error.message : err.message);
+            error =
+                "Error loading question: " +
+                (err.response ? err.response.data.error.message : err.message);
             console.error("Error:", err);
         }
     }
 
     function checkAnswer(answer) {
         userAnswer = answer;
-        if (answer === correctAnswer) {
-            setTimeout(() => {
-                currentQuestionIndex++;
-                userAnswer = "";
-                loadQuestion(currentQuestionIndex);
-            }, 2000);
-        } else {
-            restartMessage = "Falsche Antwort! Das Spiel startet neu.";
-            gameOver = true;
-            setTimeout(() => {
-                restartGame();
-            }, 2000);
-        }
+        setTimeout(() => {
+            currentQuestionIndex++;
+            userAnswer = "";
+            loadQuestion(currentQuestionIndex);
+        }, 2000);
     }
 
     function isCorrect(answer) {
@@ -89,21 +94,7 @@
         return userAnswer && answer !== correctAnswer && userAnswer === answer;
     }
 
-    function calculateRocketPosition() {
-        return (currentQuestionIndex / (maxQuestions - 1)) * 100;
-    }
-
-    function restartGame() {
-        currentQuestionIndex = 0;
-        userAnswer = "";
-        question = "Frage lädt...";
-        answers = [];
-        correctAnswer = "";
-        error = "";
-        gameOver = false;
-        restartMessage = "";
-        loadQuestion(currentQuestionIndex);
-    }
+    $: rocketPosition = (currentQuestionIndex / maxQuestions) * 100;
 </script>
 
 <div class="container">
@@ -112,17 +103,13 @@
             src={Rocket}
             alt="Rocket"
             class="rocket"
-            style="bottom: {calculateRocketPosition()}%"
+            style="bottom: {rocketPosition}%"
         />
     </div>
     <div class="quiz-content">
         {#if error}
             <p class="error">{error}</p>
-        {/if}
-        {#if gameOver}
-            <p class="error">{restartMessage}</p>
-        {/if}
-        {:else if question !== "Frage lädt..."}
+        {:else}
             <div>
                 <p>{question}</p>
                 <ul>
@@ -130,8 +117,11 @@
                         <li>
                             <button
                                 type="button"
-                                class:is-correct={userAnswer && answer === correctAnswer}
-                                class:is-incorrect={userAnswer && answer !== correctAnswer && userAnswer === answer}
+                                class:is-correct={userAnswer &&
+                                    answer === correctAnswer}
+                                class:is-incorrect={userAnswer &&
+                                    answer !== correctAnswer &&
+                                    userAnswer === answer}
                                 on:click={() => checkAnswer(answer)}
                                 disabled={userAnswer !== ""}
                             >
@@ -144,5 +134,3 @@
         {/if}
     </div>
 </div>
-
-
