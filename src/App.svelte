@@ -2,7 +2,7 @@
   import Router from "svelte-spa-router";
   import { link } from "svelte-spa-router";
   import routes from "./routes.js";
-  import { history } from "./stores.js"; // Import the history store
+  import { history } from "./stores.js";
 </script>
 
 <main>
@@ -15,7 +15,7 @@
   </nav>
   <Router {routes} />
   <footer>
-    <p>&copy; 2023 Astronomy Quiz. All rights reserved.</p>
+    <p>&copy; 2024 Astronomy Quiz. All rights reserved.</p>
   </footer>
 </main>
 

@@ -1,7 +1,8 @@
 <script>
     import { fetchChatGPTResponse } from "./api";
     import { onMount } from "svelte";
-    export let history;
+    import { history } from "./stores.js";
+    import { get } from "svelte/store";
 
     let currentQuestionIndex = 0;
     let maxQuestions = 15;
@@ -12,25 +13,27 @@
     let error = "";
     let gameOver = false;
     let restartMessage = "";
+    let animateRocket = false;
+    let rocketPosition = 0; // Initialize rocketPosition
 
     import Rocket from "./assets/Rocket.png";
 
     const stages = [
-        "Astronaut",
-        "Veteran",
-        "Pionier",
-        "Gelehrter",
-        "Meister",
-        "Experte",
-        "Spezialist",
-        "Analytiker",
-        "Forscher",
-        "Enthusiast",
-        "Kenner",
-        "Entdecker",
-        "Lernender",
-        "Neuling",
         "Anfänger",
+        "Neuling",
+        "Lernender",
+        "Entdecker",
+        "Kenner",
+        "Enthusiast",
+        "Forscher",
+        "Analytiker",
+        "Spezialist",
+        "Experte",
+        "Meister",
+        "Gelehrter",
+        "Pionier",
+        "Veteran",
+        "Astronaut",
     ];
 
     onMount(async () => {
@@ -103,9 +106,16 @@
             setTimeout(() => {
                 currentQuestionIndex++;
                 userAnswer = "";
+                rocketPosition =
+                    (currentQuestionIndex / (maxQuestions - 1)) * 95;
                 loadQuestion(currentQuestionIndex);
             }, 2000);
         } else {
+            animateRocket = true;
+            document.documentElement.style.setProperty(
+                "--rocket-start",
+                `${rocketPosition}%`,
+            );
             setTimeout(() => {
                 restartMessage =
                     "Falsche Antwort! Die Rakete muss neu gestartet werden.";
@@ -125,8 +135,6 @@
         return userAnswer && answer !== correctAnswer && userAnswer === answer;
     }
 
-    $: rocketPosition = (currentQuestionIndex / (maxQuestions - 1)) * 95;
-
     function restartGame() {
         currentQuestionIndex = 0;
         userAnswer = "";
@@ -136,6 +144,8 @@
         error = "";
         gameOver = false;
         restartMessage = "";
+        animateRocket = false;
+        rocketPosition = 0;
         loadQuestion(currentQuestionIndex);
     }
 </script>
@@ -157,7 +167,7 @@
             <img
                 src={Rocket}
                 alt="Rocket"
-                class="rocket"
+                class="rocket {animateRocket ? 'animate' : ''}"
                 style="bottom: {rocketPosition}%"
             />
         </div>

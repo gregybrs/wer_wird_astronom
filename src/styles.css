@@ -7,18 +7,28 @@ html {
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr;
-    background-color: #26135D;
+    background: url('./assets/background.avif') no-repeat center center fixed;
+    background-size: cover;
 }
 
 header {
-    background-color: #26135D;
+    background-color: rgba(38, 19, 93, 0);
     color: #fff;
     padding: 1em;
     text-align: center;
+    font-family: "Notable", sans-serif;
+    font-weight: 400;
+    font-style: 64px;
+}
+
+
+h1 {
+    font-size: 3.5em;
+
 }
 
 nav {
-    background-color: #0A1BA2;
+    background-color: #0a1ca2b0;
     color: #fff;
     display: flex;
     justify-content: space-around;
@@ -51,6 +61,10 @@ section {
     color: #fff;
 }
 
+:root {
+    --rocket-start: 95%;
+}
+
 .container {
     display: flex;
 }
@@ -80,6 +94,30 @@ section {
     transform: translateX(-50%);
 }
 
+.rocket.animate {
+    animation: wobble 1s ease-in-out;
+}
+
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(-50%) rotate(-15deg);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(15deg);
+    }
+
+    75% {
+        transform: translateX(-50%) rotate(-10deg);
+    }
+}
+
 .stages {
     display: flex;
     flex-direction: column-reverse;
@@ -99,6 +137,7 @@ section {
 
 .quiz-content {
     flex-grow: 1;
+    align-self: auto;
 }
 
 
@@ -115,6 +154,14 @@ li {
     margin: 5px 0;
 }
 
+
+.answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+
 button {
     position: relative;
     width: 100%;
@@ -128,9 +175,13 @@ button {
     clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
     border: none;
     outline: none;
-
-
 }
+
+button .label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
 
 button::after {
     content: '';
@@ -144,7 +195,7 @@ button::after {
     left: +2px;
     /* Adjust to match border width */
     background: none;
-    border: 2px solid #ab9adf;
+    border: 0px solid #ab9adf;
     clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
     /* Match button shape */
     z-index: -1;
@@ -153,9 +204,9 @@ button::after {
     /* Ensure the border radius matches */
 }
 
-button:hover {
-    background: linear-gradient(45deg, #78baf3, #4246af);
-    /* Gradient background */
+
+button:not(.is-correct):not(.is-incorrect):hover {
+    background: linear-gradient(180deg, #db8f49, #dccb31, #db8f49);
     transform: scale(1.05);
 }
 
@@ -181,7 +232,7 @@ button:hover {
 
 
 footer {
-    background-color: #26135D;
+    background-color: rgba(38, 19, 93, 0);
     color: #fff;
     text-align: center;
     padding: 1em;
