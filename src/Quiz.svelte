@@ -67,7 +67,7 @@
                 .split("\n")
                 .filter((line) => line.trim() !== "");
 
-            console.log("Parsed lines:", lines);
+            //  console.log("Parsed lines:", lines);
 
             if (lines.length < 6) {
                 throw new Error("Unvollständige API-Antwort");
@@ -89,9 +89,16 @@
                 );
             }
 
-            console.log("Richtige Antwort:", correctAnswer);
+            // console.log("Richtige Antwort:", correctAnswer);
 
-            history.update((h) => [...h, { question, answers, correctAnswer }]);
+            $history.push({
+                question: question,
+                answers: answers,
+                correctAnswer: correctAnswer,
+            });
+            console.log("hsitory:");
+            console.log($history);
+            //history.update((h) => [...h, { question, answers, correctAnswer }]);
         } catch (err) {
             error =
                 "Fehler beim Laden der Frage: " +

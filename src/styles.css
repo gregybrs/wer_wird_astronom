@@ -121,7 +121,7 @@ section {
 .stages {
     display: flex;
     flex-direction: column-reverse;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .stage {
@@ -135,11 +135,29 @@ section {
 }
 
 
-.quiz-content {
-    flex-grow: 1;
-    align-self: auto;
+.progress-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    padding: 10px;
+    padding-left: 0;
+    padding-top: 10px;
+
 }
 
+.quiz-content {
+    display: flex;
+    padding: 20px;
+    overflow-y: auto;
+    align-content: space-around;
+    padding-top: 0;
+}
 
 .error {
     color: red;

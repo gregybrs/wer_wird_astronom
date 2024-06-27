@@ -1,10 +1,10 @@
 <script>
-    export let history = [];
+    import { history } from "./stores.js";
 </script>
 
 <h2>Fragen</h2>
 <ul>
-    {#each history as item, index}
+    {#each $history as item, index}
         <li>
             <p><strong>Frage {index + 1}:</strong> {item.question}</p>
             <ul>
