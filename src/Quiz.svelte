@@ -17,6 +17,7 @@
     let rocketPosition = 0; // Initialize rocketPosition
 
     import Rocket from "./assets/Rocket.png";
+    import QuestionSVG from "./assets/question.svg";
 
     const stages = [
         "Anfänger",
@@ -179,15 +180,19 @@
             />
         </div>
     </div>
+
     <div class="quiz-content">
         {#if error}
             <p class="error">{error}</p>
         {:else if gameOver}
             <p class="error">{restartMessage}</p>
         {:else if question !== "Frage lädt..."}
-            <div>
-                <p>{question}</p>
-                <ul>
+            <div class="question-container">
+                <div class="question-background"></div>
+                <div class="question-content">
+                    <p>{question}</p>
+                </div>
+                <ul class="answers">
                     {#each answers as answer}
                         <li>
                             <button

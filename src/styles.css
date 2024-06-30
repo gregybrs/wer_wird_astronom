@@ -24,25 +24,24 @@ header {
 
 h1 {
     font-size: 3.5em;
-
+    top: 300px;
 }
 
 nav {
-    background-color: #0a1ca2b0;
+    position: fixed;
+    top: 0;
+    left: 0;
     color: #fff;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     padding: 0.5em 0;
+    width: 100%;
+    margin-bottom: 50px;
 }
 
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-}
 
 nav a:hover {
-    background-color: #555;
+    background-color: #ffdd57;
 }
 
 main {
@@ -51,6 +50,7 @@ main {
     flex-direction: column;
     align-items: center;
     color: #fff;
+    align-items: flex-start
 }
 
 section {
@@ -61,18 +61,21 @@ section {
     color: #fff;
 }
 
-:root {
-    --rocket-start: 95%;
-}
 
 .container {
     display: flex;
+    align-items: center;
+    width: 100%;
+
 }
 
 .progress-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
     margin-right: 20px;
+    width: 300px;
+    justify-content: right;
 }
 
 .progress-bar {
@@ -135,28 +138,43 @@ section {
 }
 
 
-.progress-container {
+.quiz-content {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    padding: 20px;
+    overflow-y: auto;
     align-content: center;
+    padding-top: 0;
+    position: relative;
+    z-index: 1;
     justify-content: center;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 200px;
-    padding: 10px;
-    padding-left: 0;
-    padding-top: 10px;
+    width: 900px;
+    height: 550px;
+}
+
+.question-container {
+    display: flex;
+    position: relative;
+    padding: 20px;
+    margin: 20px;
+    width: 550px;
+    height: 300px;
+    align-items: center;
+    flex-direction: column;
 
 }
 
-.quiz-content {
+.question-background {
     display: flex;
-    padding: 20px;
-    overflow-y: auto;
-    align-content: space-around;
-    padding-top: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url('./assets/question.svg') no-repeat center center;
+    background-size: contain;
+    z-index: -1;
+    justify-content: center;
 }
 
 .error {
@@ -173,79 +191,48 @@ li {
 }
 
 
-.answers-grid {
+
+
+.answers {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    margin-top: 100xpx;
+    padding-top: 50px;
+    width: 900px;
+    height: 100%;
 }
-
 
 button {
     position: relative;
     width: 100%;
-    padding: 20px;
-    margin: 5px 0;
+    padding: 0px;
+    margin: 0px 0;
     cursor: pointer;
-    border-radius: 10px;
-    background: linear-gradient(180deg, #050D4D, #0C1EB3, #050D4D);
-    color: #fff;
-    font-size: 16px;
-    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
     border: none;
     outline: none;
+    background: url('./assets/standard.svg') no-repeat center center;
+    background-size: contain;
+    height: 100px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    color: #fff;
 }
 
-button .label {
-    font-weight: bold;
-    margin-right: 10px;
+button:hover:not(.is-correct):not(.is-incorrect) {
+    background: url('./assets/hover.svg') no-repeat center center;
+    background-size: contain;
+    color: #000000;
+
 }
 
-
-button::after {
-    content: '';
-    position: absolute;
-    top: +2px;
-    /* Adjust to match border width */
-    right: +2px;
-    /* Adjust to match border width */
-    bottom: +2px;
-    /* Adjust to match border width */
-    left: +2px;
-    /* Adjust to match border width */
-    background: none;
-    border: 0px solid #ab9adf;
-    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
-    /* Match button shape */
-    z-index: -1;
-    /* Place it behind the button */
-    border-radius: 8px;
-    /* Ensure the border radius matches */
-}
-
-
-button:not(.is-correct):not(.is-incorrect):hover {
-    background: linear-gradient(180deg, #db8f49, #dccb31, #db8f49);
-    transform: scale(1.05);
-}
 
 .is-correct {
-    background: linear-gradient(45deg, #9de2ad, #2f9e49);
-    /* Light green gradient */
-}
-
-.is-correct::before {
-    border-color: #2f9e49;
-    /* Adjust border color to match */
+    background: url('./assets/correct.svg') no-repeat center center;
+    background-size: contain;
 }
 
 .is-incorrect {
-    background: linear-gradient(45deg, #c0797f, #ed2a3e);
-    /* Light red gradient */
-}
-
-.is-incorrect::before {
-    border-color: #ed2a3e;
-    /* Adjust border color to match */
+    background: url('./assets/incorrect.svg') no-repeat center center;
+    background-size: contain;
 }
 
 

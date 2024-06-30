@@ -11,7 +11,7 @@
   </header>
   <nav>
     <a href="/" use:link>Quiz</a>
-    <a href="/fragen" use:link>Fragen</a>
+    <a href="/fragen" use:link>Alle Fragen</a>
   </nav>
   <Router {routes} />
   <footer>
