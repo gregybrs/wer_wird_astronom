@@ -177,6 +177,33 @@ section {
     justify-content: center;
 }
 
+
+.joker-container {
+    display: flex;
+    position: relative;
+    padding: 20px;
+    margin: 20px;
+    width: 550px;
+    height: 300px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.joker-button {
+    position: relative;
+    width: 100%;
+    padding: 0px;
+    margin: 0px 0;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #0C1EB3;
+    background-size: contain;
+    height: 100px;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    color: #fff;
+}
+
 .error {
     color: red;
 }

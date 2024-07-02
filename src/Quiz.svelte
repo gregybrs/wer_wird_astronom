@@ -3,6 +3,10 @@
     import { onMount } from "svelte";
     import { history } from "./stores.js";
     import { get } from "svelte/store";
+    import Rocket from "./assets/Rocket.png";
+    import QuestionSVG from "./assets/question.svg";
+    import { useJoker, resetJoker, jokerUsed, jokerMessage } from "./joker.js";
+    import Modal from "./Modal.svelte";
 
     let currentQuestionIndex = 0;
     let maxQuestions = 15;
@@ -15,9 +19,6 @@
     let restartMessage = "";
     let animateRocket = false;
     let rocketPosition = 0; // Initialize rocketPosition
-
-    import Rocket from "./assets/Rocket.png";
-    import QuestionSVG from "./assets/question.svg";
 
     const stages = [
         "Anfänger",
@@ -68,8 +69,6 @@
                 .split("\n")
                 .filter((line) => line.trim() !== "");
 
-            //  console.log("Parsed lines:", lines);
-
             if (lines.length < 6) {
                 throw new Error("Unvollständige API-Antwort");
             }
@@ -90,16 +89,13 @@
                 );
             }
 
-            // console.log("Richtige Antwort:", correctAnswer);
-
             $history.push({
                 question: question,
                 answers: answers,
                 correctAnswer: correctAnswer,
             });
-            console.log("hsitory:");
+            console.log("history:");
             console.log($history);
-            //history.update((h) => [...h, { question, answers, correctAnswer }]);
         } catch (err) {
             error =
                 "Fehler beim Laden der Frage: " +
@@ -154,7 +150,12 @@
         restartMessage = "";
         animateRocket = false;
         rocketPosition = 0;
+        resetJoker();
         loadQuestion(currentQuestionIndex);
+    }
+
+    function closeModal() {
+        resetJoker();
     }
 </script>
 
@@ -211,8 +212,20 @@
                     {/each}
                 </ul>
             </div>
+            <div class="joker-container">
+                <button
+                    type="button"
+                    on:click={() =>
+                        useJoker(correctAnswer, userAnswer, gameOver)}
+                    disabled={$jokerUsed || userAnswer !== ""}
+                >
+                    Use Joker
+                </button>
+            </div>
         {:else}
             <p>Frage lädt...</p>
         {/if}
     </div>
+
+    <Modal show={$jokerUsed} message={$jokerMessage} onClose={closeModal} />
 </div>
