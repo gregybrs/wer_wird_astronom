@@ -12,12 +12,7 @@
 
 {#if show}
     <div class="modal-overlay" role="dialog" aria-modal="true">
-        <button
-            class="modal"
-            tabindex="0"
-            on:keydown={handleKeydown}
-            on:click|stopPropagation
-        >
+        <button class="modal" tabindex="0" on:keydown={handleKeydown}>
             <p>{message}</p>
             <button type="button" on:click={onClose}>Schließen</button>
         </button>

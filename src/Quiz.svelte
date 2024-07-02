@@ -5,7 +5,14 @@
     import { get } from "svelte/store";
     import Rocket from "./assets/Rocket.png";
     import QuestionSVG from "./assets/question.svg";
-    import { useJoker, resetJoker, jokerUsed, jokerMessage } from "./joker.js";
+    import {
+        useJoker,
+        resetJokers,
+        jokerUsed,
+        jokerMessage,
+        useSecondJoker,
+        secondJokerUsed,
+    } from "./joker.js";
     import Modal from "./Modal.svelte";
 
     let currentQuestionIndex = 0;
@@ -18,7 +25,8 @@
     let gameOver = false;
     let restartMessage = "";
     let animateRocket = false;
-    let rocketPosition = 0; // Initialize rocketPosition
+    let rocketPosition = 0;
+    let showModal = false;
 
     const stages = [
         "Anfänger",
@@ -150,12 +158,24 @@
         restartMessage = "";
         animateRocket = false;
         rocketPosition = 0;
-        resetJoker();
+        resetJokers();
         loadQuestion(currentQuestionIndex);
     }
 
     function closeModal() {
-        resetJoker();
+        jokerMessage.set("");
+        showModal = false;
+        console.log("Modal closed, joker not reset"); // Debug log
+        resetJokers();
+    }
+
+    function openModal() {
+        showModal = true;
+    }
+
+    function useSecondJokerHandler() {
+        answers = useSecondJoker(answers, correctAnswer, userAnswer, gameOver);
+        console.log("Second joker used"); // Debug log
     }
 </script>
 
@@ -212,20 +232,32 @@
                     {/each}
                 </ul>
             </div>
-            <div class="joker-container">
-                <button
-                    type="button"
-                    on:click={() =>
-                        useJoker(correctAnswer, userAnswer, gameOver)}
-                    disabled={$jokerUsed || userAnswer !== ""}
-                >
-                    Use Joker
-                </button>
-            </div>
         {:else}
             <p>Frage lädt...</p>
         {/if}
     </div>
-
+    <div class="joker-container">
+        <button
+            type="button"
+            class="joker-button"
+            on:click={() => {
+                useJoker(correctAnswer, userAnswer, gameOver);
+                openModal(); // Open the modal
+                console.log("Joker button clicked"); // Debug log
+            }}
+            disabled={$jokerUsed || userAnswer !== ""}
+        >
+        </button>
+        <button
+            type="button"
+            class="fifty-joker-button"
+            on:click={() => {
+                useSecondJokerHandler();
+                console.log("Second joker button clicked"); // Debug log
+            }}
+            disabled={$secondJokerUsed || userAnswer !== ""}
+        >
+        </button>
+    </div>
     <Modal show={$jokerUsed} message={$jokerMessage} onClose={closeModal} />
 </div>

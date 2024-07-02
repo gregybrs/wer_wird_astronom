@@ -1,0 +1,47 @@
+.joker-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    width: 200px;
+}
+
+.joker-button {
+    background: url('./src/assets/Telefonjoker.png') no-repeat center center;
+    background-size: contain;
+    width: 70px;
+    height: 70px;
+    /* Ensure the buttons have a height */
+    transition: background-color 0.3s ease;
+}
+
+
+.joker-button:disabled {
+    background: url('./assets/Telefonjoker_disabled.png') no-repeat center center;
+    background-size: contain;
+    cursor: not-allowed;
+}
+
+.joker-button:hover:not(:disabled) {
+    background: url('./assets/Telefonjoker_hover.png') no-repeat center center;
+    background-size: contain;
+}
+
+.fifty-joker-button {
+    background: url('./assets/5050_joker.png') no-repeat center center;
+    background-size: contain;
+    width: 70px;
+    transition: background-color 0.3s ease;
+}
+
+.fifty-joker-button:disabled {
+    background: url('./assets/5050_disabled.png') no-repeat center center;
+    background-size: contain;
+    cursor: not-allowed;
+}
+
+.fifty-joker-button:hover:not(:disabled) {
+    background: url('./assets/5050_hover.png') no-repeat center center;
+    background-size: contain;
+}

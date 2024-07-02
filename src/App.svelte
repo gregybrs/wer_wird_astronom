@@ -26,6 +26,6 @@
     color: #fff;
   }
   nav a:hover {
-    background-color: #555;
+    color: black;
   }
 </style>

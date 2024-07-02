@@ -1,18 +1,27 @@
 <script>
     import { history } from "./stores.js";
+    import "./fragen.css";
 </script>
 
 <h2>Fragen</h2>
-<ul>
+<div>
     {#each $history as item, index}
-        <li>
-            <p><strong>Alle Frage {index + 1}:</strong> {item.question}</p>
-            <ul>
+        <div class="question-box">
+            <p class="question">
+                <strong>Frage {index + 1}:</strong>
+                {item.question}
+            </p>
+            <ul class="answers">
                 {#each item.answers as answer}
-                    <li>{answer}</li>
+                    <li
+                        class="answer {answer === item.correctAnswer
+                            ? 'correct-answer'
+                            : ''}"
+                    >
+                        {answer}
+                    </li>
                 {/each}
             </ul>
-            <p><strong>Richtige Antwort:</strong> {item.correctAnswer}</p>
-        </li>
+        </div>
     {/each}
-</ul>
+</div>

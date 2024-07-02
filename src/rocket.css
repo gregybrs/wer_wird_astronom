@@ -1,0 +1,67 @@
+.progress-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+    width: 300px;
+    justify-content: right;
+}
+
+.progress-bar {
+    width: 10px;
+    height: 60vh;
+    position: relative;
+    background: linear-gradient(0deg, #234035, #0C1EB3, #01062c);
+    margin-right: 100px;
+    margin-left: 20px;
+    border-radius: 15px;
+    outline: 1px solid #ab9adf;
+}
+
+.rocket {
+    position: absolute;
+    width: 40px;
+    transition: bottom 0.3s ease-in-out;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.rocket.animate {
+    animation: wobble 1s ease-in-out;
+}
+
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(-50%) rotate(-15deg);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(15deg);
+    }
+
+    75% {
+        transform: translateX(-50%) rotate(-10deg);
+    }
+}
+
+.stages {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.stage {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.current-stage {
+    font-weight: bold;
+    color: #ffdd57;
+}
